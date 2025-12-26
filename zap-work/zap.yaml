@@ -1,0 +1,64 @@
+env:
+  parameters:
+    failOnError: true
+    progressToStdout: true
+
+  contexts:
+    - name: baseline
+      urls:
+        - "http://app:3000"
+      includePaths:
+        - "http://app:3000/.*"
+      excludePaths: []
+      sessionManagement:
+        method: cookie
+
+jobs:
+  # Passive scan ayarları
+  - type: passiveScan-config
+    parameters:
+      enableTags: false
+      maxAlertsPerRule: 10
+
+  # Spider ile siteyi dolaş (GET endpointleri keşfeder)
+  - type: spider
+    parameters:
+      context: "baseline"
+      url: "http://app:3000/"
+      maxDuration: 2
+
+  # İstersen AJAX spider (Next.js SPA davranışlarında daha çok URL yakalar)
+  - type: spiderAjax
+    parameters:
+      context: "baseline"
+      maxDuration: 2
+
+  # Passive scan sonuçlarının bitmesini bekle (0 = sonsuz bekleme riskli)
+  - type: passiveScan-wait
+    parameters:
+      maxDuration: 5
+
+  # Özet çıktısı (istersen /zap/wrk içine alalım)
+  - type: outputSummary
+    parameters:
+      format: Long
+      summaryFile: /zap/wrk/zap_out.json
+    rules: []
+
+  # HTML rapor
+  - type: report
+    parameters:
+      template: traditional-html
+      reportDir: /zap/wrk
+      reportFile: zap-report.html
+      reportTitle: "ZAP Scanning Report"
+      reportDescription: ""
+
+  # JSON rapor
+  - type: report
+    parameters:
+      template: traditional-json
+      reportDir: /zap/wrk
+      reportFile: zap-report.json
+      reportTitle: "ZAP Scanning Report"
+      reportDescription: ""
