@@ -7,6 +7,8 @@ Bu repo, teziniz için **bilerek zafiyet üretmeden**, SQL injection gibi saldı
 > Not: Kasıtlı SQLi zafiyeti içeren “hazır hedef” üretmek, kötüye kullanılabileceği için önerilmez.
 > Bu proje, tezinizde **savunma kontrollerini** aç/kapa senaryolarıyla karşılaştırma yapmanıza yardımcı olacak şekilde tasarlanmıştır.
 
+> Lab kapsamında kullanılan ve üretilen tüm veri ve loglar https://drive.google.com/drive/folders/1MkIgP9YvNdj6CZHZLbcvwXoRMeP8DkRm linkindedir.
+
 ## Özellikler
 - Sayfalar:
   - `/auth/register`
